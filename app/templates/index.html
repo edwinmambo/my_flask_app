@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edwin Mambo</title>
-</head>
-<body>
-    <h1>Welcome to Edwin Mambo's Website</h1>
-    <img src="{{ url_for('static', filename='assets/python_flask.jpeg') }}" alt="Your Name" width="300">
-</body>
-</html>
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <h2 class="text-center display-4">Welcome to Edwin Mambo's Website</h2>
+    <img src="{{ url_for('static', filename='assets/python_flask.jpeg') }}" alt="Your Name" width="200">
+    {% endblock %}
