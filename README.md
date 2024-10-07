@@ -246,7 +246,7 @@ You can also click on the **Commit and Push** button to push the changes to a re
 
    4. Enter the repository name and description (optional) and click **Share**. Untick `private` if you want the repository to be public.
 
-    ![Share project to github](image-3.png)
+    ![Share project to github](app/static/assets/images/image-3.png)
 
 
 ## Step 7: Adding different pages
