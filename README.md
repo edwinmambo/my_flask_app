@@ -1,3 +1,4 @@
+# PART 1:
 # Flask Installation and Simple Webpage Guide in PyCharm
 
 ## Prerequisites
@@ -22,8 +23,8 @@ Ensure that you have the following installed on your machine:
 4. Set your project **Name** (e.g., `my_flask_app`) and location (e.g., `~/usr/<username>/PycharmProjects`).
 5. Tick the box that says **Create Git Repository** if you want to use version control (optional).
 6. Select the **Project venv** option for **Interpreter type** so that it uses a virtual environment (the default option).
-8. Select the **Python version** you want to use (usually the default one detected in the system).
-9. Click **Create**.
+7. Select the **Python version** you want to use (usually the default one detected in the system).
+8. Click **Create**.
 
    ![Create New Project PyCharm](app/static/assets/images/image.png)
 
@@ -36,12 +37,12 @@ Ensure that you have the following installed on your machine:
 4. The file opens in the editor on the right. Let's edit the file with the following code:
 
     ```python
-    from app import app
+   from app import app
 
-    if __name__ == '__main__':
+   if __name__ == '__main__':
         app.run(debug=True)
-    ```
-    _Realize that the app after import is underlined with red squiggly lines because it doesn't know how to import from the app directory yet. Lets fix that below._
+   ```
+   _Realize that the app after import is underlined with red squiggly lines because it doesn't know how to import from the app directory yet. Let's fix that below._
 
 5. Create a new Python file in the `app` directory named `__init__.py`. This is a special file that tells Python that the `app` directory should be treated as a package. This will initialize the Flask application.
 
@@ -54,8 +55,8 @@ Ensure that you have the following installed on your machine:
 
 ## Step 3: Installing Flask
 1. Open the **Python Packages** in PyCharm (usually located at the bottom left panel of the window).
-![Python Packages in Pycharm](app/static/assets/images/image-1.png)
-_Only pip in installed. We need to install Flask._
+   ![Python Packages in Pycharm](app/static/assets/images/image-1.png)
+   _Only pip in installed. We need to install Flask._
 
 2. Open the terminal in PyCharm (usually located at the bottom of the window). Ensure your virtual environment is activated. You should see the name of your virtual environment in the terminal prompt.
 
@@ -68,55 +69,55 @@ _Only pip in installed. We need to install Flask._
    ```
 
 4. Once Flask is installed, you should see it and its dependencies listed in the Python Packages section alongside `pip`:
-   - `MarkupSafe`
-   - `itsdangerous`
-   - `colorama`
-   - `blinker`
-   - `Werkzeug`
-   - `Jinja2`
-   - `click`
-   - `flask`
+    - `MarkupSafe`
+    - `itsdangerous`
+    - `colorama`
+    - `blinker`
+    - `Werkzeug`
+    - `Jinja2`
+    - `click`
+    - `flask`
 
-    _Realize that the squiggly lines under Flask and app have disappeared because PyCharm now recognizes the Flask package._
+   _Realize that the squiggly lines under Flask and app have disappeared because PyCharm now recognizes the Flask package._
 
 5. Create a new Python file in the `app` directory named `app_factory.py`. This file will contain the function to create the Flask application instance. It will also import the `app` instance from the `__init__.py` file.
-It will serve as a workaround to the circular import and redundancy issue that arises when importing the `app` instance in the `app.py` file. Write the following code in the `app_factory.py` file:
+   It will serve as a workaround to the circular import and redundancy issue that arises when importing the `app` instance in the `app.py` file. Write the following code in the `app_factory.py` file:
 
     ```python
-    from flask import Flask
+   from flask import Flask
 
-    def create_app():
+   def create_app():
         app = Flask(__name__)
         return app
-    ```
+   ```
 
 6. In the `__init__.py` file, import the `create_app` function from the `app_factory.py` file and create the `app` instance:
 
     ```python
-    from .app_factory import create_app
+   from .app_factory import create_app
 
-    app = create_app()
-    ```
-    _This should start our app._
+   app = create_app()
+   ```
+   _This should start our app._
 
 
 ## Step 4: Working with Routes and Templates
 We will create the routes and templates for our application. We will start with routes - this is like the brain of our application.
 
-1. Right-click on the `app` directory and create a new directory named `routes.py`. This file will contain the routes for our application. Have the below code in the `routes.py` file:
+1. Right-click on the `app` directory and create a new file named `routes.py`. This file will contain the routes for our application. Have the below code in the `routes.py` file:
 
     ```python
-    from flask import render_template
-    from . import app
+   from flask import render_template
+   from . import app
 
-    @app.route('/')
-    def index():
+   @app.route('/')
+   def index():
         return render_template('index.html')
-    ```
+   ```
 
 2. Create a new directory in the `app` directory named `templates`. This directory will contain the HTML templates for our application.
-   1. Right-click on the project root (`my_flask_app`).
-   2. Select **New > Directory** and create a folder named `templates`.
+    1. Right-click on the project root (`my_flask_app`).
+    2. Select **New > Directory** and create a folder named `templates`.
 
 3. Inside the `templates` folder, create a new HTML file named `index.html`. This file will be the homepage of our application. Add the following code:
 
@@ -132,20 +133,20 @@ We will create the routes and templates for our application. We will start with 
     </body>
     </html>
     ```
-    _Replace `Your Name` with your name._
+   _Replace `Your Name` with your name._
 
 4. In the `__init__.py` file, import the `routes` module to register the routes with the Flask application:
 
-    ```python
-    from . import routes
-    ```
+   ```python
+   from . import routes
+   ```
 
 5. Let's also add a secret key to the `app` instance in the `__init__.py` file. This is used to keep the client-side sessions secure. Add the following line to the `app` instance in the `__init__.py` file:
 
-    ```python
-    app.secret_key = 'your_secret_key'
-    ```
-    _Replace `your_secret_key` with an environment variable of your choice. _
+   ```python
+   app.secret_key = 'your_secret_key'
+   ```
+   _Replace `your_secret_key` with an environment variable of your choice. _
 
 ## Step 5: Running the Application
 Here's how we will run this application:
@@ -157,7 +158,7 @@ Here's how we will run this application:
     ```bash
     python app.py
     ```
-    You should see the following output:
+   You should see the following output:
 
     ```ps
     * Serving Flask app 'app.app_factory'
@@ -170,22 +171,22 @@ Here's how we will run this application:
     * Debugger PIN: 123-456-789
     ```
 
-    _Anything done on the website will show up here._
+   _Anything done on the website will show up here._
 
 4. Open your browser and navigate to `http://127.0.0.1:5000/` to view your website.
 
 5. Make some changes to the website. The change will reflect since this is development server.
 
-   1. Open `index.html` and change the `<h1>` element to `<h1>Welcome to Your Name's Best Website</h1>`
+    1. Open `index.html` and change the `<h1>` element to `<h1>Welcome to Your Name's Best Website</h1>`
 
-   2. Go to the webpage and refresh the page.
+    2. Go to the webpage and refresh the page.
 
-   3. The new content should appear. The activity should also be displayed in your terminal as well.
+    3. The new content should appear. The activity should also be displayed in your terminal as well.
 
 ## Step 6: Working with Static Files
 To add static files like pictures, here's what to do:
 
-1. Right Click on the `app` directory and create a new directory named `static`. This directory will contain the static files for our application.
+1. Right-Click on the `app` directory and create a new directory named `static`. This directory will contain the static files for our application.
 
 2. Inside the `static` folder, create a new directory named `assets`. This directory will contain the images for our application.
 
@@ -206,18 +207,18 @@ To add static files like pictures, here's what to do:
     </body>
     </html>
     ```
-    _Replace `image.jpg` with the name of the image you added to the `assets` directory._
+   _Replace `image.jpg` with the name of the image you added to the `assets` directory._
 
 5. Run the application again by running the `app.py` file or refresh your browser if the server is still running.
 
-    The image should be displayed on the homepage of your website.
+   The image should be displayed on the homepage of your website.
 
 6. Let's make the image smaller by changing the line in `index.html` to the below:
 
     ```html
     <img src="{{ url_for('static', filename='assets/image.jpg') }}" alt="Your Name" width="300">
     ```
-    _The image should now be smaller._
+   _The image should now be smaller._
 
 ### (Optional) Git Version Control
 If you hadn't initialized a Git repository when creating the project, you can do so now(In Pycharm).
@@ -225,28 +226,28 @@ If you hadn't initialized a Git repository when creating the project, you can do
 1. Click on the **VCS** menu on the top bar.
 2. Select **Enable Version Control Integration...**.
 3. In the dialog that appears, select **Git** from the list of version control systems and click **OK**.
-4. You should see the Git icon on the top right corner of the PyCharm window, just below the project folder icon.
+4. You should see the Git icon in the top right corner of the PyCharm window, just below the project folder icon.
 
    ![PyCharm VCS with Git](app/static/assets/images/image-2.png)
 
-    If you had initialized a Git repository when creating the project, you can commit your changes by following these steps:
+   If you had initialized a Git repository when creating the project, you can commit your changes by following these steps:
 
 5. Right-click on the project root and select **Git > Add** to add all the files to the staging area.
 
-6. Open the **Commit Changes** dialog by clicking on the **Commit** icon on the top right corner of the PyCharm window just below the project folder icon.
+6. Open the **Commit Changes** dialog by clicking on the **Commit** icon in the top right corner of the PyCharm window just below the project folder icon.
 
 7. Select on the changes checkbox that appears to select files. In the **Commit Changes** panel that appears, enter a commit message and click **Commit**.
-You can also click on the **Commit and Push** button to push the changes to a remote repository if you had connected to one. If you hadn't, you can do so by:
+   You can also click on the **Commit and Push** button to push the changes to a remote repository if you had connected to one. If you hadn't, you can do so by:
 
-   1. Click on the **VCS** / **Git** menu on the top bar.
+    1. Click on the **VCS** / **Git** menu on the top bar.
 
-   2. Select **Github > Share Project on Github**
+    2. Select **GitHub > Share Project on GitHub**
 
-   3. Follow the prompts to connect to your Github account and create a new repository if you hadn't connected. If you had, then proceed.
+    3. Follow the prompts to connect to your GitHub account and create a new repository if you hadn't connected. If you had, then proceed.
 
-   4. Enter the repository name and description (optional) and click **Share**. Untick `private` if you want the repository to be public.
+    4. Enter the repository name and description (optional) and click **Share**. Uncheck `private` if you want the repository to be public.
 
-    ![Share project to github](app/static/assets/images/image-3.png)
+   ![Share project to github](app/static/assets/images/image-3.png)
 
 
 ## Step 7: Adding different pages
@@ -255,12 +256,12 @@ We want to add different pages that can be navigated to.
 
 1. Add the following to the `routes.py` file:
 
-    ```python
-    @app.route('/about')
-    def about():
+   ```python
+   @app.route('/about')
+   def about():
         return render_template('about.html')
-    ```
-
+   ```
+    _This will create a new route for the `/about` URL that will render the `about.html` template._
 2. Create a new HTML file in the `templates` directory named `about.html`. Add the following content to the file:
 
     ```html
@@ -302,7 +303,7 @@ We want to add different pages that can be navigated to.
     {% endblock %}
     ```
 
-    Replace the content of the `about.html` file with the following:
+   Replace the content of the `about.html` file with the following:
 
     ```html
     {% extends 'base.html' %}
@@ -318,7 +319,7 @@ We want to add different pages that can be navigated to.
 
 5. Let's add navigation links to the `base.html` file. Update the `base.html` file with the following content:
 
-    _(You can use Copilot in PyCharm to generate the code)_
+   _(You can use Copilot in PyCharm to generate the code)_
 
     ```html
     <!DOCTYPE html>
@@ -336,11 +337,11 @@ We want to add different pages that can be navigated to.
     </body>
     </html>
     ```
-    _The navigation links should now appear on all pages._
+   _The navigation links should now appear on all pages._
 
 6. Let's give the application a basic bootstrap look. We will use Bootstrap 5 (currently v5.3 as at the writing of this walkthrough). See here for more information: [Latest Bootstrap](https://getbootstrap.com/)
 
-    Change the `base.html` file to the following:
+   Change the `base.html` file to the following:
 
     ```html
     <!DOCTYPE html>
@@ -379,11 +380,11 @@ We want to add different pages that can be navigated to.
     </html>
     ```
 
-    _`{% if request.endpoint == 'index' %}active{% endif %}` has been added for extra functionality required in bootstrap theme used. (A little advanced)_
+   _`{% if request.endpoint == 'index' %}active{% endif %}` has been added for extra functionality required in bootstrap theme used. (A little advanced)_
 
-    Your `index.html` and `about.html` should be like the following:
+   Your `index.html` and `about.html` should be like the following:
 
-    `index.html`
+   `index.html`
     ```html
     {% extends 'base.html' %}
 
@@ -393,7 +394,7 @@ We want to add different pages that can be navigated to.
     {% endblock %}
     ```
 
-    `about.html`
+   `about.html`
     ```html
     {% extends 'base.html' %}
 
@@ -402,16 +403,16 @@ We want to add different pages that can be navigated to.
     {% endblock %}
     ```
 
-    Your webpage should have a look similar to the ones below:
+   Your webpage should have a look similar to the ones below:
 
-    Home/Index Page
-    ![Final - Index Page](app/static/assets/images/image-4.png)
-    About Page
-    ![Final - About Page](app/static/assets/images/image-5.png)
+   Home/Index Page
+   ![Final - Index Page](app/static/assets/images/image-4.png)
+   About Page
+   ![Final - About Page](app/static/assets/images/image-5.png)
 
 7. You can now commit your changes to Git and push your changes to GitHub if you have it set up.
 
-    _You can also add more pages and styles to your application._
+   _You can also add more pages and styles to your application._
 
 ## Conclusion
 You have successfully created a simple Flask application with multiple pages and a basic Bootstrap theme. You can now build on this foundation to create more complex web applications using Flask.
