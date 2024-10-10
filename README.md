@@ -1,5 +1,4 @@
-# PART 1:
-# Flask Installation and Simple Webpage Guide in PyCharm
+# PART 1: Flask Installation and Simple Webpage Guide in PyCharm
 
 ## Prerequisites
 Ensure that you have the following installed on your machine:
@@ -422,3 +421,194 @@ _This is a basic guide to get you started with Flask. You can explore more featu
 You can find this example in this [repository](https://github.com/edwinmambo/my_flask_app/)
 
 Happy coding! 🚀
+
+# PART 2: Deploying the Flask Application to Heroku
+
+## Prerequisites
+Before starting, ensure you have the following installed:
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+- [Python](https://www.python.org/downloads/)
+- [PyCharm](https://www.jetbrains.com/pycharm/download/)
+- [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
+- A [Heroku](https://www.heroku.com/) account
+
+**Note**: _The following steps are specific to PyCharm, but you can adapt them to other IDEs or text editors. See the versions used for this tutorial:_
+
+- **Python**: 3.12.5
+- **PyCharm**: 2024.2.3 (Community Edition)
+- **MySQL Workbench**: 8.0.38
+- **Heroku CLI**: heroku/9.3.0 win32-x64 node-v16.20.2
+- **Heroku Account**: Free tier
+- **Operating System**: Windows 11
+
+## Step 2: Set Up a Heroku Application
+1. Open your browser and navigate to [Heroku](https://www.heroku.com/).
+2. Log in to your Heroku account.
+3. Click on the **New** button and select **Create New App**.
+4. Enter a unique name for your app and click on the **Create App** button.
+5. Your app will be created, and you will be redirected to the app dashboard. _Take note of the app name as you will need it later._
+![Heroku Creating App](app/static/assets/images/image-6.png)
+
+## Step 3: Add JawsDB MySQL Add-on
+1. Click on the **Resources** tab in the Heroku app dashboard.
+2. In the **Add-ons** section, search for **JawsDB MySQL**. Click on the **JawsDB MySQL** add-on to add it to your app.
+3. In the pop-up window, be sure to select the **Kitefin Shared - Free** plan and click on the **Submit Order Form
+4. You will see the JawsDB MySQL add-on listed in the **Add-ons** section. Click on the **JawsDB MySQL** add-on to view the details in **Kitefin Server Dashboard**.
+5. You will see the connection details for the JawsDB MySQL database, including the username, password, host, and database name.
+![JawsDB MySQL Add-on](app/static/assets/images/image-7.png)
+
+## (Optional): Using the Heroku CLI
+### Set Up a Heroku Application
+
+1. Log in to your Heroku account via the CLI:
+    ```bash
+    heroku login
+    ```
+
+2. Create a new Heroku app:
+    ```bash
+    heroku create <your-app-name>
+    ```
+    _Replace <your-app-name> with a unique name for your app._
+
+    This command will create a new Heroku app and associate it with a git repository.
+
+### Set up JawsDB Add-on
+
+1. Add the JawsDB MySQL add-on to your Heroku app:
+    ```bash
+    heroku addons:create jawsdb:kitefin -a <your-app-name>
+    ```
+
+2. To get the connection URL of the MySQL database, run:
+    ```bash
+    heroku config:get JAWSDB_URL -a <your-app-name>
+    ```
+
+    This will return the MySQL connection URL. You'll use this later to connect to MySQL Workbench and in your Flask app.
+
+## Step 4: Connect JawsDB to MySQL Workbench
+1. Open **MySQL Workbench** on your local machine.
+2. Click on the **+** icon next to **MySQL Connections** to create a new connection.
+3. Enter the connection details provided by JawsDB MySQL in the **Connection Name**, **Hostname**, **Port**, **Username**, and **Password** fields.
+   _Remember to replace the placeholders with the actual values provided by JawsDB MySQL._
+   _**Note:** Set the username first before the password to properly store your password in the vault._
+4. Click on **Test Connection** to verify the connection. If the connection is successful, click on **OK** to save the connection.
+5. You should see the new connection listed under **MySQL Connections**. Double-click on the connection to open it and view the databases and tables.
+
+### (Optional): Using MySQL Workbench
+1. You can now create tables in the new database by right-clicking on the database and selecting **Create Table**.
+2. In the table use the following details:
+    - **Table Name**: `basic`
+    - **Columns**:
+        - `basic_id` Click on the checkbox (PK - for primary key, NN for Not Null, AI for Auto Increment)
+        _You should see a key icon on basic_id indicating it's the primary key._
+        - `first_name` Datatype `VARCHAR(45)`
+        - `last_name` Datatype `VARCHAR(45)`
+3. Click on **Apply** to preview the SQL query and then click on **Apply** again to create the table.
+4. To edit the table, expand the table under the database. Hover over the table name. If you click on the wrench, you can edit the table.
+   If you click on the table icon, I can put data into the table.
+5. In the result grid, you can add data to the table. Make sure to click on the **Apply** button to save the data else it won't be applied.
+   _Note that the basic_id auto increments, and we don't have to input value into it because it is a primary key._
+
+## Step 6: Prepare for Deployment
+_For this walkthrough, we will deploy a new flask application that has not being connected with GitHub as we will use Heroku Git._
+1. Create a new Pycharm project and name it `my-flask-app`. Use the same steps as in the previous walkthrough. Do not use git control version.
+   You can copy the previous project into the new project and use it as the starting point.
+2. Open the terminal in PyCharm of the project. Ensure your virtual environment is activated.
+   We will use the steps outlined in the Deploy tab in Heroku app dashboard.
+3. Login to Heroku CLI using the command:
+
+    ```bash
+    heroku login
+    ```
+
+4. Initialize the Git repository in the root directory of your Flask application by running the following command:
+
+    ```bash
+    git init
+    heroku git:remote -a <your-app-name>
+    ```
+    _Replace `<your-app-name>` with the name of your Heroku app._
+
+5. Add the files to the staging area and commit by running the following command:
+
+    ```bash
+    git add .
+    git commit -am "Initial commit"
+    ```
+
+    Now we're ready to push this app to Heroku
+
+## Step 7: 🚀 Deploy Flask App to Heroku
+
+1. Push the changes to the Heroku remote repository by running the following command:
+
+    ```bash
+    git push heroku main
+    ```
+    _You can use `master` instead of `main` if you are using the master branch._
+    _You will get an error if your app was blank. You can check your logs in the dashboard, **More** > **View Logs** to see the error._
+
+2. Let's modify our application by adding some files to make the deployment successful.
+    1. Create a new file in the root directory of your Flask application named `Procfile`. This file will contain the command to run the Flask application on Heroku. Add the following code to the file:
+
+        ```code
+        web: gunicorn app:app
+        ```
+        This will tell Heroku to run the Flask application using the `gunicorn` web server.
+    2. Create a requirements file by running the following command in the terminal:
+
+        ```bash
+        pip freeze > requirements.txt
+        ```
+        This will generate a `requirements.txt` file containing the Python packages required by your Flask application.
+        This file will be read by Heroku to install the necessary packages.
+
+3. Push the changes to the Heroku remote repository by running the following command:
+
+    ```bash
+    git push heroku main
+    ```
+
+    This time it is successful. You should see the progress in the terminal.
+
+4. Once the deployment is complete, you will see the URL of your Heroku app. You can open this URL in your browser to view your Flask application.
+   There is however an error. You can view the logs from the Heroku dashboard or the cli using the command:
+
+    ```bash
+    heroku logs --tail
+    ```
+    _This will show you the details of the deployment process and any errors that occurred._
+    _You can use [ChatGPT](https://chat.openai.com/) to troubleshoot the error and offer solutions by prompting the error logs._
+
+5. Running the application locally using the command below should work fine:
+
+    ```bash
+    python app.py
+    ```
+    _This will start the application locally, and you can view it in your browser._
+
+6. To solve the error regarding gunicorn not installed, you can add gunicorn to the `requirements.txt` file by running the following command:
+
+    ```bash
+    pip install gunicorn
+    pip freeze > requirements.txt
+    ```
+
+7. Push the changes to the Heroku remote repository. You can use the following command:
+
+    ```bash
+    git add .
+    git commit -m "Added gunicorn to requirements.txt"
+    git push heroku main
+    ```
+    _This will push the changes to Heroku and rebuild the application._
+
+8. Once the deployment is complete, you will see the URL of your Heroku app. You can open this URL in your browser to view your Flask application.
+9. Congratulations! You have successfully deployed your Flask application to Heroku.
+    You can now make changes to your Flask application and deploy them to Heroku by following the same steps.
+    You can access your Flask application on Heroku by visiting the URL provided after the deployment is complete.
+    You can share this URL with others to showcase your Flask application. Mine is [here](https://my-flask-app-321-b89ff6af0393.herokuapp.com/).
+
+    Happy Deploying! 🚀
